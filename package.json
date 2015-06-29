@@ -1,0 +1,35 @@
+{
+  "name": "abyss",
+  "description": "Deep and asynchronous.",
+  "version": "0.1.0",
+  "author": "Qix (http://github.com/Qix-)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Qix-/node-abyss.git"
+  },
+  "keywords": [
+    "async",
+    "asynchronous",
+    "clone",
+    "compare",
+    "deep",
+    "deeper",
+    "equality",
+    "equals",
+    "object",
+    "recursive",
+    "transform"
+  ],
+  "scripts": {
+    "test": "node_modules/.bin/mocha"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.2",
+    "istanbul": "^0.3.16",
+    "mocha": "^2.2.5",
+    "should": "^7.0.1"
+  },
+  "dependencies": {
+    "async": "^1.2.1"
+  }
+}
