@@ -18,6 +18,14 @@ var obj = {
 };
 
 describe('traverse()', function() {
+  it('should \'traverse\' non-object', function(done) {
+    abyss.traverse('Hello', function(v, path, cb) {
+      v.should.equal('Hello');
+      path.should.be.lengthOf(0);
+      done();
+    });
+  });
+
   it('should iterate all properties', function(done) {
     var keyCount = 0;
     var valCount = 0;
@@ -62,6 +70,18 @@ describe('equals()', function() {
 });
 
 describe('test()', function() {
+  it('should validate non-objects (string)', function(done) {
+    abyss.test(function(v) { return v === 'hello' }, 'hello', function(equal) {
+      equal.should.equal(true);
+      done();
+    });
+  });
+  it('should validate non-objects (regex)', function(done) {
+    abyss.test(/^..l+.$/, 'hello', function(equal) {
+      equal.should.equal(true);
+      done();
+    });
+  });
   it('should validate literal values', function(done) {
     abyss.test({a:1}, obj, function(equal) {
       equal.should.equal(true);

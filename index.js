@@ -24,15 +24,15 @@ function resolve(obj, path) {
 abyss.traverse = function traverse(obj, itrfn, cb, path) {
   path = path || [];
 
+  if (typeof obj !== 'object'
+      || nativeConstructors.indexOf(obj.constructor) !== -1) {
+    return itrfn(obj, path, cb);
+  }
+
   async.each(Object.keys(obj), function(key, cb) {
     var val = obj[key];
     var thisPath = path.concat(key);
-    if (typeof val === 'object'
-        && nativeConstructors.indexOf(val.constructor) === -1) {
-      abyss.traverse(val, itrfn, cb, thisPath);
-    } else {
-      itrfn(val, thisPath, cb);
-    }
+    abyss.traverse(val, itrfn, cb, thisPath);
   }, cb);
 };
 
