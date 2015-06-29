@@ -3,6 +3,7 @@
   "description": "Deep and asynchronous.",
   "version": "0.1.0",
   "author": "Qix (http://github.com/Qix-)",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Qix-/node-abyss.git"
