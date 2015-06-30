@@ -147,6 +147,14 @@ describe('clone()', function() {
       });
     });
   });
+  it('should clone a non-object', function(done) {
+    var num = 123;
+    abyss.clone(num, function(err, cloned) {
+      if (err) return done(err);
+      cloned.should.equal(123);
+      done();
+    });
+  });
 });
 
 describe('transform()', function() {

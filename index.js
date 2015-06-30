@@ -104,26 +104,39 @@ abyss.test = function test(objA, objB, cb) {
 
 abyss.clone = function clone(obj, cb) {
   var newObj = {};
+
+  var cloneValue = function cloneValue(val, cb) {
+    switch (true) {
+    case util.isArray(val):
+      return cb(null, val.slice(0));
+    case typeof val === 'object':
+      abyss.clone(val, function(err, cloned) {
+        if (err) {
+          return cb(err);
+        }
+        cb(null, cloned);
+      });
+      return;
+    default:
+      return cb(null, val);
+    }
+  }
+
+  if (typeof obj !== 'object'
+      || nativeConstructors.indexOf(obj.constructor) !== -1) {
+    return cloneValue(obj, cb);
+  }
+
   async.each(Object.keys(obj),
       function(key, cb) {
         var val = obj[key];
-        switch (true) {
-        case util.isArray(val):
-          newObj[key] = val.slice(0);
-          return cb();
-        case typeof val === 'object':
-          abyss.clone(val, function(err, cloned) {
-            if (err) {
-              return cb(err);
-            }
-            newObj[key] = cloned;
-            cb();
-          });
-          return;
-        default:
-          newObj[key] = val;
-          return cb();
-        }
+        cloneValue(val, function(err, newVal) {
+          if (err) {
+            return cb(err);
+          }
+          newObj[key] = newVal;
+          cb();
+        });
       },
       function(err) {
         if (err) {
