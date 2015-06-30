@@ -153,9 +153,9 @@ describe('transform()', function() {
   it('should transform basic literals', function(done) {
     abyss.clone(obj, function(err, cloned) {
       if (err) return done(err);
-      abyss.transform({b:{c:15}}, cloned, function(err) {
+      abyss.transform({b:{c:15}}, cloned, function(err, transformed) {
         if (err) return done(err);
-        abyss.equals({b:{c:15}}, cloned, function(equal) {
+        abyss.equals({b:{c:15}}, transformed, function(equal) {
           equal.should.equal(true);
           done();
         });
@@ -165,9 +165,9 @@ describe('transform()', function() {
   it('should transform regexes', function(done) {
     abyss.clone(obj, function(err, cloned) {
       if (err) return done(err);
-      abyss.transform({g:{h:[/l/gi, 'r']}}, cloned, function(err) {
+      abyss.transform({g:{h:[/l/gi, 'r']}}, cloned, function(err, transformed) {
         if (err) return done(err);
-        abyss.equals({g:{h:'Herro!'}}, cloned, function(equal) {
+        abyss.equals({g:{h:'Herro!'}}, transformed, function(equal) {
           equal.should.equal(true);
           done();
         });
@@ -180,13 +180,14 @@ describe('transform()', function() {
       var transformation = function(v) {
         return v.split('').reverse().join('');
       };
-      abyss.transform({g:{h:transformation}}, cloned, function(err) {
-        if (err) return done(err);
-        abyss.equals({g:{h:'!olleH'}}, cloned, function(equal) {
-          equal.should.equal(true);
-          done();
-        });
-      });
+      abyss.transform({g:{h:transformation}}, cloned,
+          function(err, transformed) {
+            if (err) return done(err);
+            abyss.equals({g:{h:'!olleH'}}, transformed, function(equal) {
+              equal.should.equal(true);
+              done();
+            });
+          });
     });
   });
   it('should ignore non-relevant transforms', function(done) {
@@ -195,13 +196,27 @@ describe('transform()', function() {
       var transformation = function(v) {
         return v.split('').reverse().join('');
       };
-      abyss.transform({g:{u:transformation}}, cloned, function(err) {
-        if (err) return done(err);
-        abyss.equals({g:{h:'Hello!'}}, cloned, function(equal) {
-          equal.should.equal(true);
-          done();
-        });
-      });
+      abyss.transform({g:{u:transformation}}, cloned,
+          function(err, transformed) {
+            if (err) return done(err);
+            abyss.equals({g:{h:'Hello!'}}, transformed, function(equal) {
+              equal.should.equal(true);
+              done();
+            });
+          });
+    });
+  });
+  it('should allow basic functional transform', function(done) {
+    abyss.clone(obj, function(err, cloned) {
+      if (err) return done(err);
+      abyss.transform(function(){return 'bar'}, 'bar',
+          function(err, transformed) {
+            if (err) return done(err);
+            abyss.equals('bar', transformed, function(equal) {
+              equal.should.equal(true);
+              done();
+            });
+          });
     });
   });
 });

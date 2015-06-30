@@ -151,13 +151,22 @@ abyss.transform = function transform(objA, objB, cb) {
           break;
         }
 
-        var node = path.pop();
-        var cur = resolve(objB, path);
-        cur[node] = vB;
+        if (path.length) {
+          var node = path.pop();
+          var cur = resolve(objB, path);
+          cur[node] = vB;
+        } else {
+          objB = vB;
+        }
         cb();
       },
       function(path, cb) {
         cb();
       },
-      cb);
+      function(err) {
+        if (err) {
+          return cb(err);
+        }
+        cb(null, objB);
+      });
 };
