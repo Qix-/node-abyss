@@ -189,4 +189,19 @@ describe('transform()', function() {
       });
     });
   });
+  it('should ignore non-relevant transforms', function(done) {
+    abyss.clone(obj, function(err, cloned) {
+      if (err) return done(err);
+      var transformation = function(v) {
+        return v.split('').reverse().join('');
+      };
+      abyss.transform({g:{u:transformation}}, cloned, function(err) {
+        if (err) return done(err);
+        abyss.equals({g:{h:'Hello!'}}, cloned, function(equal) {
+          equal.should.equal(true);
+          done();
+        });
+      });
+    });
+  });
 });

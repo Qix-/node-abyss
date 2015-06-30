@@ -39,8 +39,12 @@ abyss.traverse = function traverse(obj, itrfn, cb, path) {
 abyss.traverseBoth = function traverseBoth(objA, objB, match, missing, cb) {
   abyss.traverse(objA,
     function(v, path, cb) {
+      var vb;
       try {
-        var vb = resolve(objB, path);
+        vb = resolve(objB, path);
+        if (vb === undefined) {
+          throw true;
+        }
       } catch(e) {
         return missing(path, cb);
       }
