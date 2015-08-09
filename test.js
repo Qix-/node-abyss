@@ -179,6 +179,20 @@ describe('clone()', function() {
       done();
     });
   });
+  it('should clone null', function(done) {
+    abyss.clone(null, function(err, cloned) {
+      if (err) return done(err);
+      should(cloned).equal(null);
+      done();
+    });
+  });
+  it('should clone undefined', function(done) {
+    abyss.clone(undefined, function(err, cloned) {
+      if (err) return done(err);
+      should(cloned).equal(undefined);
+      done();
+    });
+  });
 });
 
 describe('transform()', function() {

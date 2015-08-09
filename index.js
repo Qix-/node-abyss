@@ -105,6 +105,10 @@ abyss.test = function test(objA, objB, cb) {
 abyss.clone = function clone(obj, cb) {
   var newObj = {};
 
+  if (obj === null || obj === undefined) {
+    return cb(null, obj);
+  }
+
   var cloneValue = function cloneValue(val, cb) {
     switch (true) {
     case util.isArray(val):
