@@ -70,6 +70,18 @@ describe('equals()', function() {
 });
 
 describe('test()', function() {
+  it('should validate numbers', function(done) {
+    abyss.test(1234, 1234, function(equal) {
+      equal.should.equal(true);
+      done();
+    });
+  });
+  it('should validate numbers (fail)', function(done) {
+    abyss.test(1234, 12345, function(equal) {
+      equal.should.equal(false);
+      done();
+    });
+  });
   it('should validate non-objects (string)', function(done) {
     abyss.test(function(v) { return v === 'hello' }, 'hello', function(equal) {
       equal.should.equal(true);
@@ -79,6 +91,18 @@ describe('test()', function() {
   it('should validate non-objects (regex)', function(done) {
     abyss.test(/^..l+.$/, 'hello', function(equal) {
       equal.should.equal(true);
+      done();
+    });
+  });
+  it('should validate objects (fail)', function(done) {
+    abyss.test({a: 1234}, 1234, function(equal) {
+      equal.should.equal(false);
+      done();
+    });
+  });
+  it('should validate inequal objects (fail)', function(done) {
+    abyss.test({a: 1234}, {b: 1234}, function(equal) {
+      equal.should.equal(false);
       done();
     });
   });

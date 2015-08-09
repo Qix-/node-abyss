@@ -95,10 +95,10 @@ abyss.test = function test(objA, objB, cb) {
         cb();
       },
       function(path, cb) {
-        cb();
+        cb(true);
       },
       function(err) {
-        cb(!!!err);
+        cb(!err);
       });
 };
 
