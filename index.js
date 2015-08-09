@@ -24,7 +24,7 @@ function resolve(obj, path) {
 abyss.traverse = function traverse(obj, itrfn, cb, path) {
   path = path || [];
 
-  if (typeof obj !== 'object'
+  if (!obj || typeof obj !== 'object'
       || nativeConstructors.indexOf(obj.constructor) !== -1) {
     return itrfn(obj, path, cb);
   }

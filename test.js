@@ -265,4 +265,14 @@ describe('transform()', function() {
           });
     });
   });
+  it('should allow transform to null', function(done) {
+    abyss.transform(null, 'bar',
+        function(err, transformed) {
+          if (err) return done(err);
+          abyss.equals(null, transformed, function(equal) {
+            equal.should.equal(true);
+            done();
+          });
+        });
+  });
 });
